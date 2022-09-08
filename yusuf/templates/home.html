@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .form{
+            width: 500px;
+            margin: auto;
+            border-radius: 20px;
+            background: hsl(206deg 100% 93%);
+            padding: 25px;
+        }
+        #myForm{
+            margin-bottom: 25px;
+        }
+        #newNumber{
+            margin-top: 10px;
+            background-color: #fff;
+            padding: 10px 40px;
+            border-radius: 20px;
+        }
+        .button{
+            background: #007bff;
+            padding: 8px 25px;
+            border-radius: 17px;
+            transition: .7s;
+            margin-top: 10px;
+            border: #007bff;
+            cursor: pointer;
+            color: #fff;
+        }
+        .button:hover{
+            background: #007bffd1;
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+
+       <form  id="myForm">
+          <input type="text" name="myNumber" id="number" placeholder="Type Your Number"/><br/>
+          <button class="button" type="submit">Convert</button>
+       </form>
+       <span id="newNumber">result</span>
+
+    </div>
+
+    <script>
+        var form = document.getElementById("myForm");
+        var elements = form.getElementsByTagName("input")
+        var newNumber = document.getElementById("newNumber")
+        var data={};
+        // Get the value of the input when user submit the form
+        form.addEventListener("submit",function(e){
+            e.preventDefault();
+            for (let i=0 ;i<elements.length ;i++){
+                let element=elements[i];
+                data[element.getAttribute("name")]=element.value
+            }
+            const formatter = Intl.NumberFormat("en",{notation:"compact"})
+            newNumber.innerHTML = formatter.format(data.myNumber)
+
+
+            console.info("element",data)
+            //Send the number to API and get the new number (PostMethod)
+             fetch("https://jsonplaceholder.typicode.com/posts",{
+             method: 'POST',
+             headers: {
+                 'Content-Type':
+                     'application/json;charset=utf-8'
+             },
+             body: JSON.stringify(data)})
+             .then(res =>res.json()).then(res => {
+                 console.log("result" ,res)
+                 newNumber.innerHTML= x
+             });
+
+             
+        
+
+            // Get the new number (GetMethod)
+            //fetch(`https://jsonplaceholder.typicode.com/posts/${data.myNumber}`).then(response => response.json()).then(res=>{
+            //    console.info("res",res)
+            //    newNumber.innerHTML=res.id
+        //    })
+        })
+        
+    </script>
+</body>
+</html>
